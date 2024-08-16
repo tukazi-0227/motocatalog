@@ -11,6 +11,7 @@ services:
       MYSQL_DATABASE: motocatalogdb
       MYSQL_USER: develop
       MYSQL_PASSWORD: develop
+      TZ: Asia/Tokyo
     ports:
       - 3307:3306
     

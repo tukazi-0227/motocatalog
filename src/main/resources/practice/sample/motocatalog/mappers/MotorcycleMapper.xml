@@ -5,10 +5,9 @@
 <mapper namespace="practice.sample.motocatalog.mappers.MotorcycleMapper">
   <resultMap id="motorcycleMap" type="practice.sample.motocatalog.beans.Motorcycle" autoMapping="true">
     <association property="brand" javaType="practice.sample.motocatalog.beans.Brand" autoMapping="true">
-
     </association>
   </resultMap>
-  <select id="selectAll" resultMap="motorcycleMap">
+  <select id="selectByCondition" resultMap="motorcycleMap">
     select
       m_motorcycle.moto_no
       , m_motorcycle.moto_name
@@ -22,7 +21,38 @@
       m_motorcycle 
       left outer join m_brand 
         on m_motorcycle.brand_id = m_brand.brand_id
+    <where>
+      <if test="brandId != null">
+        AND m_motorcycle.brand_id = #{brandId}
+      </if>
+      <if test="keyword != null">
+        AND m_motorcycle.moto_name like CONCAT('%', #{keyword}, '%')
+      </if>
+    </where>
+    order by
+      moto_no;
+  </select>
 
+  <select id="selectByPK" resultMap="motorcycleMap">
+    select
+      m_motorcycle.moto_no
+      , m_motorcycle.moto_name
+      , m_motorcycle.seat_height
+      , m_motorcycle.cylinder
+      , m_motorcycle.cooling
+      , m_motorcycle.price
+      , m_motorcycle.comment
+      , m_motorcycle.brand_id
+      , m_motorcycle.version
+      , m_motorcycle.ins_dt
+      , m_motorcycle.upd_dt
+      , m_brand.brand_name
+    from
+      m_motorcycle 
+      left outer join m_brand 
+        on m_motorcycle.brand_id = m_brand.brand_id
+      where  
+        m_motorcycle.moto_no = #{motoNo}
     order by
       moto_no;
   </select>

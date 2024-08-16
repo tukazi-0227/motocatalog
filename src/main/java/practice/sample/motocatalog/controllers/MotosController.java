@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import lombok.extern.slf4j.Slf4j;
 import practice.sample.motocatalog.beans.Brand;
 import practice.sample.motocatalog.beans.Motorcycle;
+import practice.sample.motocatalog.beans.SearchCondition;
 import practice.sample.motocatalog.services.MotosService;
 
 @Controller
@@ -37,7 +38,8 @@ public class MotosController {
 
         //バイク
         List<Motorcycle> motos = new ArrayList<>();
-        motos = service.getMotos();
+        SearchCondition condition = new SearchCondition();
+        motos = service.getMotos(condition);
         
         model.addAttribute("brands", brands);
         model.addAttribute("motos", motos);

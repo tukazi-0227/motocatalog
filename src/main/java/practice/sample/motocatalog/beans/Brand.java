@@ -5,14 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * ƒoƒCƒNƒ[ƒJ[ƒuƒ‰ƒ“ƒh
+ * ï¿½oï¿½Cï¿½Nï¿½ï¿½ï¿½[ï¿½Jï¿½[ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½h
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Brand {
-    //ƒuƒ‰ƒ“ƒhID
+    //ãƒ–ãƒ©ãƒ³ãƒ‰hID
     private String brandId;
-    //ƒuƒ‰ƒ“ƒh–¼
+    //ãƒ–ãƒ©ãƒ³ãƒ‰å
     private String brandName;
 }
