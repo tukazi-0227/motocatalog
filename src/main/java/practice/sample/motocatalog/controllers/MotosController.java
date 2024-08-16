@@ -43,7 +43,7 @@ public class MotosController {
         model.addAttribute("motos", motos);
 
         //ログ出力
-        log.info("motos: {}", motos);
+        log.debug("motos: {}", motos);
 
         return "moto_list";
     }
