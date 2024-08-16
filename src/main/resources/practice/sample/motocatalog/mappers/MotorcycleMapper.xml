@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="practice.sample.motocatalog.mappers.MotorcycleMapper">
+  <resultMap id="motorcycleMap" type="practice.sample.motocatalog.beans.Motorcycle" autoMapping="true">
+    <association property="brand" javaType="practice.sample.motocatalog.beans.Brand" autoMapping="true">
+
+    </association>
+  </resultMap>
+  <select id="selectAll" resultMap="motorcycleMap">
+    select
+      m_motorcycle.moto_no
+      , m_motorcycle.moto_name
+      , m_motorcycle.brand_id
+      , m_motorcycle.cylinder
+      , m_motorcycle.cooling
+      , m_motorcycle.price
+      , m_motorcycle.comment
+      , m_brand.brand_name 
+    from
+      m_motorcycle 
+      left outer join m_brand 
+        on m_motorcycle.brand_id = m_brand.brand_id
+
+    order by
+      moto_no;
+  </select>
+</mapper>
