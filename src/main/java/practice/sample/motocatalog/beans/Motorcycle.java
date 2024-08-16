@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * �o�C�N
+ * バイク情報
  */
 @Data
 @AllArgsConstructor
