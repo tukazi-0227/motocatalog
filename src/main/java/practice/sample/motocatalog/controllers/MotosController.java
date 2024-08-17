@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
+
 import lombok.extern.slf4j.Slf4j;
 import practice.sample.motocatalog.beans.Brand;
 import practice.sample.motocatalog.beans.Motorcycle;
-import practice.sample.motocatalog.beans.SearchCondition;
+import practice.sample.motocatalog.beans.SearchForm;
 import practice.sample.motocatalog.services.MotosService;
 
 @Controller
@@ -29,24 +31,55 @@ public class MotosController {
         return "test";
     }
 
+    /**
+     * バイク一覧の検索
+     * @param searchForm
+     * @param model
+     * @return
+     */
     @GetMapping("/motos")
-    public String motos(Model model) {
+    public String motos(SearchForm searchForm, Model model) {
 
-        //ブランド
-        List<Brand> brands = new ArrayList<>();
-        brands = service.getBrands();
+        log.info("検索条件: {}", searchForm);
+
+        //ブランドリスト
+        this.setBrands(model);
 
         //バイク
         List<Motorcycle> motos = new ArrayList<>();
-        SearchCondition condition = new SearchCondition();
-        motos = service.getMotos(condition);
-        
-        model.addAttribute("brands", brands);
+        motos = service.getMotos(searchForm);
+
         model.addAttribute("motos", motos);
 
         //ログ出力
         log.debug("motos: {}", motos);
 
         return "moto_list";
+    }
+
+    /**
+     * 検索条件のクリア
+     * @param searchForm
+     * @param model
+     * @return
+      */
+    @GetMapping("/motos/reset")
+    public String reset(SearchForm searchForm, Model model) {
+        //ブランドリスト
+        this.setBrands(model);
+        //ブランドリセット
+        searchForm = new SearchForm();
+        return "moto_list";
+    }
+
+    /**
+     * ブランドリストをmodelにえっと
+     * @param model
+     */
+    public void setBrands(Model model) {
+        //ブランド
+        List<Brand> brands = new ArrayList<>();
+        brands = service.getBrands();
+        model.addAttribute("brands", brands);
     }
 }
