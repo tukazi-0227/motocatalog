@@ -1,10 +1,13 @@
 package practice.sample.motocatalog.services;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import practice.sample.motocatalog.beans.Brand;
 import practice.sample.motocatalog.beans.Motorcycle;
@@ -15,6 +18,9 @@ import practice.sample.motocatalog.mappers.MotorcycleMapper;
 @Service
 public class MotosService {
     
+    @Autowired
+    MessageSource messageSource;
+
     @Autowired
     MotorcycleMapper motorcycleMapper;
 
@@ -41,10 +47,15 @@ public class MotosService {
      * @param moto
      * @return
      */
+    @Transactional
     public int save(Motorcycle moto) {
         int cnt = motorcycleMapper.update(moto);
         if (cnt == 0) {
-            throw new OptimisticLockingFailureException("楽観的排他エラー");
+            throw new OptimisticLockingFailureException(messageSource.getMessage("error.OptimisticLockingFailure", null, Locale.JAPANESE));
+        }
+
+        if (cnt > 1) {
+            throw new RuntimeException(messageSource.getMessage("error.Runtime", new String[] {"二件以上更新されました"}, Locale.JAPANESE));
         }
         return cnt;
     }
