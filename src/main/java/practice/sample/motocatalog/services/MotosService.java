@@ -3,6 +3,7 @@ package practice.sample.motocatalog.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 
 import practice.sample.motocatalog.beans.Brand;
@@ -35,7 +36,16 @@ public class MotosService {
         return brandMapper.selectAll();
     }
 
+    /**
+     * バイク情報の更新
+     * @param moto
+     * @return
+     */
     public int save(Motorcycle moto) {
-        return motorcycleMapper.update(moto);
+        int cnt = motorcycleMapper.update(moto);
+        if (cnt == 0) {
+            throw new OptimisticLockingFailureException("楽観的排他エラー");
+        }
+        return cnt;
     }
 }
