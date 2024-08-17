@@ -16,6 +16,7 @@
             <a class="navbar-brand" href="#" th:text="#{page.search}"></a>
         </div>
     </nav>
+    <div th:text="${#temporals.format(datetime, 'yyyy/MM/dd HH:mm:ss')}"></div>
     <div class="container">
         <form th:action="@{/motos}" method="get">
             <div class="row">
@@ -39,7 +40,7 @@
             <div class="row">
                 <div class="col d-flex flex-row-reverse">
                     <button type="button" class="btn btn-primary ms-1 mse-1" th:text="#{btn.new}"></button>
-                    <a th:href="@{/motos/reset}" class="btn btn-secondary ms-1 mse-1" th:text.reset="#{btn}"></a>
+                    <a th:href="@{/motos/reset}" class="btn btn-secondary ms-1 mse-1" th:text.reset="#{btn.reset}"></a>
                     <button type="submit" class="btn btn-success" th:text="#{btn.search}"></button>
                 </div>
             </div>
@@ -62,7 +63,7 @@
                         <th th:text="*{brand.brandName}"></th>
                         <td th:text="*{motoName}"></td>
                         <td th:text="*{cooling} + *{cylinder}"></td>
-                        <td th:text="*{price}"></td>
+                        <td th:text="*{#numbers.formatInteger(price,3,'COMMA')}"></td>
                         <td th:text="*{comment}"></td>
                     </tr>
                 </tbody>

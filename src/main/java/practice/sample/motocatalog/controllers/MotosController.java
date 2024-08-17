@@ -1,5 +1,6 @@
 package practice.sample.motocatalog.controllers;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +56,7 @@ public class MotosController {
         motos = service.getMotos(searchForm);
 
         model.addAttribute("motos", motos);
+        model.addAttribute("datetime", LocalDateTime.now());
 
         //ログ出力
         log.debug("motos: {}", motos);
