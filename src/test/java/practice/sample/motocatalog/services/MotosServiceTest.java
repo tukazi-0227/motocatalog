@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 //import org.springframework.test.context.ActiveProfiles;
 
 import practice.sample.motocatalog.beans.Motorcycle;
-import practice.sample.motocatalog.beans.SearchCondition;
+import practice.sample.motocatalog.beans.SearchForm;
 
 @SpringBootTest
 public class MotosServiceTest {
@@ -31,7 +31,7 @@ public class MotosServiceTest {
 
      @Test
      void バイク情報を全件検索() {
-         SearchCondition condition = new SearchCondition();
+         SearchForm condition = new SearchForm();
          List<Motorcycle> motos = service.getMotos(condition);
           // 検索結果の件数確認
         //assertThat(motos.size()).isEqualTo(2);
@@ -46,7 +46,7 @@ public class MotosServiceTest {
      @CsvSource({"01, Honda", "02, Kawasaki", "03, Yamaha"})
      @DisplayName("バイク一覧取得 条件: ブランドID")
      void test001(String brandId, String brandName) {
-         SearchCondition condition = new SearchCondition();
+         SearchForm condition = new SearchForm();
          condition.setBrandId(brandId); // Honda
 
          List<Motorcycle> motos = service.getMotos(condition);
@@ -60,7 +60,7 @@ public class MotosServiceTest {
     @Test
     @DisplayName("バイク一覧取得 条件: ブランドID 該当なし")
     void test002() {
-        SearchCondition condition = new SearchCondition();
+        SearchForm condition = new SearchForm();
         condition.setBrandId("99"); //Honda
 
         List<Motorcycle> motos = service.getMotos(condition);
@@ -72,7 +72,7 @@ public class MotosServiceTest {
      @CsvSource({"Z900RS", "YZF-R1", "Rebel250"})
      @DisplayName("バイク一覧取得 条件: バイク名完全一致")
      void test003(String motoName) {
-         SearchCondition condition = new SearchCondition();
+         SearchForm condition = new SearchForm();
          condition.setKeyword(motoName);
 
          List<Motorcycle> motos = service.getMotos(condition);
@@ -89,7 +89,7 @@ public class MotosServiceTest {
      @CsvSource({"Z900R, Z900RS", "F-R1, YZF-R1", "bel25, Rebel250"})
      @DisplayName("バイク一覧取得 条件: バイク名部分一致")
      void test004(String keyword, String motoName) {
-         SearchCondition condition = new SearchCondition();
+         SearchForm condition = new SearchForm();
          condition.setKeyword(keyword);
 
          List<Motorcycle> motos = service.getMotos(condition);
