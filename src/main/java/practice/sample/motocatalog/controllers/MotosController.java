@@ -27,7 +27,6 @@ import practice.sample.motocatalog.services.MotosService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 @Controller
 @Slf4j
 public class MotosController {
@@ -36,13 +35,14 @@ public class MotosController {
     MotosService service;
 
     @RequestMapping("/hello")
-    public String hello(@RequestParam String name, Model model){
+    public String hello(@RequestParam String name, Model model) {
         model.addAttribute("name", name);
         return "test";
     }
 
     /**
      * バイク一覧の検索
+     * 
      * @param searchForm
      * @param model
      * @return
@@ -51,21 +51,21 @@ public class MotosController {
     public String motos(@Validated SearchForm searchForm, BindingResult result, Model model) {
         log.info("検索条件: {}", searchForm);
         if (result.hasErrors()) {
-            //入力チェックエラーがある場合
+            // 入力チェックエラーがある場合
             return "moto_list";
         }
 
-        //ブランドリスト
+        // ブランドリスト
         this.setBrands(model);
 
-        //バイク
+        // バイク
         List<Motorcycle> motos = new ArrayList<>();
         motos = service.getMotos(searchForm);
 
         model.addAttribute("motos", motos);
         model.addAttribute("datetime", LocalDateTime.now());
 
-        //ログ出力
+        // ログ出力
         log.debug("motos: {}", motos);
 
         return "moto_list";
@@ -73,21 +73,23 @@ public class MotosController {
 
     /**
      * 検索条件のクリア
+     * 
      * @param searchForm
      * @param model
      * @return
-      */
+     */
     @GetMapping("/motos/reset")
     public String reset(SearchForm searchForm, Model model) {
-        //ブランドリスト
+        // ブランドリスト
         this.setBrands(model);
-        //ブランドリセット
+        // ブランドリセット
         searchForm = new SearchForm();
         return "moto_list";
     }
 
     /**
      * 更新画面の初期表示
+     * 
      * @param motoNo
      * @param motoForm 入力
      * @param model
@@ -98,7 +100,7 @@ public class MotosController {
         // ブランドリストの準備
         this.setBrands(model);
 
-        //バイク番号を条件にバイク情報を取得
+        // バイク番号を条件にバイク情報を取得
         Motorcycle moto = service.getMotos(motoNo);
         // 検索結果を入力内容に詰め替える
         BeanUtils.copyProperties(moto, motoForm);
@@ -107,7 +109,7 @@ public class MotosController {
     }
 
     @PostMapping("/motos/save")
-    public String save(@ModelAttribute MotoForm motoForm, BindingResult result) {
+    public String save(@ModelAttribute MotoForm motoForm, BindingResult result, Model model) {
         try {
             Motorcycle moto = new Motorcycle();
             // 入力内容を詰め替え
@@ -117,19 +119,21 @@ public class MotosController {
             // リダイレクト
             return "redirect:/motos";
         } catch (OptimisticLockingFailureException e) {
+            // ブランドリストの準備
+            this.setBrands(model);
             result.addError(new ObjectError("global", e.getMessage()));
             return "moto";
         }
-        
+
     }
-    
 
     /**
      * ブランドリストをmodelにセット
+     * 
      * @param model
      */
     public void setBrands(Model model) {
-        //ブランド
+        // ブランド
         List<Brand> brands = new ArrayList<>();
         brands = service.getBrands();
         model.addAttribute("brands", brands);
