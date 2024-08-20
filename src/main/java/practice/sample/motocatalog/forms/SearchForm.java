@@ -1,4 +1,4 @@
-package practice.sample.motocatalog.beans;
+package practice.sample.motocatalog.forms;
 
 import jakarta.validation.constraints.Size;
 import lombok.Data;

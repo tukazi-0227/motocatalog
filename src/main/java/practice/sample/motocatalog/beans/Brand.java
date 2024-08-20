@@ -1,5 +1,6 @@
 package practice.sample.motocatalog.beans;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Brand {
-    //ブランドhID
+    //ブランドID
+    @NotBlank
     private String brandId;
     //ブランド名
     private String brandName;
