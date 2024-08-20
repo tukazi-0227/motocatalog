@@ -21,7 +21,7 @@ import practice.sample.motocatalog.beans.Brand;
 //import org.springframework.test.context.ActiveProfiles;
 
 import practice.sample.motocatalog.beans.Motorcycle;
-import practice.sample.motocatalog.beans.SearchForm;
+import practice.sample.motocatalog.forms.SearchForm;
 
 @SpringBootTest
 public class MotosServiceTest {
