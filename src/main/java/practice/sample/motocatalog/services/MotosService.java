@@ -43,12 +43,27 @@ public class MotosService {
     }
 
     /**
+     * バイク情報を保存
+     * @param moto
+     * @return
+     */
+    public int save(Motorcycle moto) {
+        if (moto.getMotoNo() == null) {
+            // 登録
+            return this.add(moto);    
+        } else {
+            // 更新
+            return this.update(moto);
+        }
+    }
+
+    /**
      * バイク情報の更新
      * @param moto
      * @return
      */
     @Transactional
-    public int save(Motorcycle moto) {
+    private int update(Motorcycle moto) {
         int cnt = motorcycleMapper.update(moto);
         if (cnt == 0) {
             throw new OptimisticLockingFailureException(messageSource.getMessage("error.OptimisticLockingFailure", null, Locale.JAPANESE));
@@ -56,6 +71,26 @@ public class MotosService {
 
         if (cnt > 1) {
             throw new RuntimeException(messageSource.getMessage("error.Runtime", new String[] {"二件以上更新されました"}, Locale.JAPANESE));
+        }
+        return cnt;
+    }
+
+    /**
+     * バイク情報の登録
+     * @param moto
+     * @return
+     */
+    @Transactional
+    private int add(Motorcycle moto) {
+        // 新しいバイク番号の発行
+        Integer motoNo = motorcycleMapper.selectNewMotoNo();
+        moto.setMotoNo(motoNo);
+        int cnt = motorcycleMapper.insert(moto);
+        // 登録できなかった場合
+        if (cnt == 0) {
+            throw new RuntimeException(
+                messageSource.getMessage("error.Runtime", 
+                new String[] {"登録に失敗しました"}, Locale.JAPANESE));
         }
         return cnt;
     }
