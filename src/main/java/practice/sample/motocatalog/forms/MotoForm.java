@@ -1,7 +1,10 @@
 package practice.sample.motocatalog.forms;
 
-import java.time.LocalDateTime;
-
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import practice.sample.motocatalog.beans.Brand;
 
@@ -10,22 +13,28 @@ import practice.sample.motocatalog.beans.Brand;
  */
 @Data
 public class MotoForm {
-    //バイクナンバー
+    // バイクナンバー
     private Integer motoNo;
-    //バイク名
+    // バイク名
+    @NotBlank
+    @Size(min=1, max=50)
     private String motoName;
-    //シート高
+    // シート高
+    @Min(0)
+    @Max(1000)
     private Integer seatHeight;
-    //シリンダー
+    // シリンダー
     private Integer cylinder;
-    //冷却
+    // 冷却
     private String cooling;
-    //価格
+    // 価格
     private Integer price;
-    //コメント
+    // コメント
+    @Size(min=1, max=200)
     private String comment;
-    //ブランド
+    // ブランド
+    @Valid
     private Brand brand;
-    //バージョン
+    // バージョン
     private Integer version;
 }
