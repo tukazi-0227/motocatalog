@@ -22,3 +22,11 @@ create table m_brand (
     brand_id varchar(2) not null primary key comment 'ブランドID',
     brand_name varchar(20) comment 'ブランド名'
 ) comment 'ブランドマスタ';
+
+--ユーザーマスタのテーブル作成
+drop table if exists m_user;
+
+create table m_user (
+    username varchar(20) not null primary key comment 'ユーザー名',
+    password varchar(100) comment 'パスワード'
+) comment 'ユーザーマスタ';

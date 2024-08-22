@@ -34,3 +34,7 @@ insert into
     m_brand (brand_id, brand_name)
 values
     ('05', 'moto guzzi');
+
+--ユーザーのデータ
+insert into m_user (username, password) values ('test', '$2a$10$UqAR/2TqQuXxkLm2Sk6lTOV4sUOjaVe.Z8e4RekQpiq4n33DYvo36');
+insert into m_user (username, password) values ('admin', '$2a$10$UqAR/2TqQuXxkLm2Sk6lTOV4sUOjaVe.Z8e4RekQpiq4n33DYvo36');
